@@ -12,6 +12,7 @@ import {
   Menu,
   Icon,
   Input,
+  Label,
 } from 'src'
 
 export default class Sidebar extends Component {
@@ -77,12 +78,28 @@ export default class Sidebar extends Component {
             <small><em>{pkg.version}</em></small>
           </strong>
         </div>
-        <Link to='/introduction' className='item' activeClassName='active'>
-          Introduction
-        </Link>
-        <a className='item' href='https://github.com/TechnologyAdvice/stardust'>
-          <Icon name='github' /> GitHub
-        </a>
+        <div className='item'>
+          <div className='header'>Getting Started</div>
+          <div className='menu'>
+            <Link to='/introduction' className='item' activeClassName='active'>
+              Introduction
+            </Link>
+            <Link to='/component-explorer' className='item' activeClassName='active'>
+              Component Explorer
+              <Label color='orange' size='tiny'>new</Label>
+            </Link>
+            <Link to='/sandbox' className='item' activeClassName='active'>
+              Sandbox
+              <Label color='orange' size='tiny'>new</Label>
+            </Link>
+            <a className='item' href='https://github.com/TechnologyAdvice/stardust'>
+              <Icon name='github' /> GitHub
+            </a>
+            <a className='item' href='https://github.com/TechnologyAdvice/stardust/blob/master/CHANGELOG.md'>
+              <Icon name='file text outline' /> CHANGELOG
+            </a>
+          </div>
+        </div>
         <div className='item'>
           <Input
             className='transparent inverted icon'
@@ -95,9 +112,6 @@ export default class Sidebar extends Component {
           />
         </div>
         {_.map(this.renderItemsByType, typeOrder)}
-        <a className='item' href='https://github.com/TechnologyAdvice/stardust/blob/master/CHANGELOG.md'>
-          <Icon name='file text outline' /> CHANGELOG
-        </a>
       </Menu>
     )
   }

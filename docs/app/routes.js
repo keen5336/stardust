@@ -4,8 +4,10 @@ import { Route, IndexRedirect } from 'react-router'
 import Root from './Components/Root'
 import Layout from './Components/Layout'
 import ComponentDoc from './Components/ComponentDoc/ComponentDoc'
-import PageNotFound from './Views/PageNotFound'
 import Introduction from './Views/Introduction'
+import PageNotFound from './Views/PageNotFound'
+import ComponentExplorer from './Views/ComponentExplorer'
+import Sandbox from './Views/Sandbox'
 
 // TODO remove these once PRs are merged and docs are updated to use index.js files
 import { Button, Input, List, Segment } from 'stardust'
@@ -19,6 +21,9 @@ const routes = (
     <IndexRedirect to='introduction' />
 
     <Route path='introduction' component={Introduction} />
+    <Route path='component-explorer' component={ComponentExplorer} />
+    <Route path='sandbox' component={Sandbox} />
+
     {/* TODO remove routes once open PRs are merged and docs are updated to use index.js files */}
     <Route path='elements'>
       <Route path='button' component={ButtonDoc} />
