@@ -588,6 +588,8 @@ export default class Dropdown extends Component {
       newState.selectedIndex = this.getMenuItemIndexByValue(value)
     }
 
+    this.trySetState({ value }, { selectedIndex })
+
     this.trySetState({ value }, newState)
   }
 
