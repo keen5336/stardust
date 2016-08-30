@@ -10,14 +10,18 @@ import {
 import FeedDate from './FeedDate'
 
 function FeedSummary(props) {
-  const { children, className, date, summary } = props
+  const { children, className, content, date } = props
   const classes = cx(className, 'summary')
   const rest = getUnhandledProps(FeedSummary, props)
   const ElementType = getElementType(FeedSummary, props)
 
+  if (children) {
+    return <ElementType {...rest} className={classes}>{children}</ElementType>
+  }
+
   return (
     <ElementType {...rest} className={classes}>
-      {children || summary }
+      {content}
       {date && <FeedDate date={date} />}
     </ElementType>
   )
@@ -31,10 +35,7 @@ FeedSummary._meta = {
 
 FeedSummary.propTypes = {
   /** An element type to render as (string or function). */
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  as: customPropTypes.as,
 
   /** Primary content of the FeedSummary. */
   children: customPropTypes.every([
@@ -46,12 +47,10 @@ FeedSummary.propTypes = {
   className: PropTypes.string,
 
   /** An event summary can contain a date. */
-  date: PropTypes.string,
+  date: customPropTypes.shorthand,
 
-  summary: customPropTypes.every([
-    customPropTypes.disallow(['children']),
-    PropTypes.string,
-  ]),
+  /** Shorthand for children */
+  content: customPropTypes.shorthand,
 }
 
 export default FeedSummary

@@ -10,15 +10,19 @@ import {
 import { createIcon } from '../../factories'
 
 function FeedLike(props) {
-  const { children, className, icon, like } = props
+  const { children, className, icon, content } = props
   const classes = cx(className, 'like')
   const rest = getUnhandledProps(FeedLike, props)
   const ElementType = getElementType(FeedLike, props)
 
+  if (children) {
+    return <ElementType {...rest} className={classes}>{children}</ElementType>
+  }
+
   return (
     <ElementType {...rest} className={classes}>
       {createIcon(icon)}
-      {children || like}
+      {content}
     </ElementType>
   )
 }
@@ -36,10 +40,7 @@ FeedLike.defaultProps = {
 
 FeedLike.propTypes = {
   /** An element type to render as (string or function). */
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  as: customPropTypes.as,
 
   /** Primary content of the FeedLike. */
   children: customPropTypes.every([
@@ -53,11 +54,8 @@ FeedLike.propTypes = {
   /** Name of icon for FeedLike. */
   icon: PropTypes.node,
 
-  /** Primary content of the FeedLike, mutually exclusive with children prop. */
-  like: customPropTypes.every([
-    customPropTypes.disallow(['children']),
-    PropTypes.string,
-  ]),
+  /** Primary content of the FeedLike. */
+  content: customPropTypes.shorthand,
 }
 
 export default FeedLike

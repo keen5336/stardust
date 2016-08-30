@@ -1,7 +1,7 @@
 import cx from 'classnames'
 import React, { PropTypes } from 'react'
 
-import { getElementType, getUnhandledProps, META, useKeyOnly } from '../../lib'
+import { customPropTypes, getElementType, getUnhandledProps, META, useKeyOnly } from '../../lib'
 
 /**
  * A divider visually segments content into groups
@@ -42,10 +42,7 @@ Divider._meta = {
 
 Divider.propTypes = {
   /** An element type to render as (string or function). */
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  as: customPropTypes.as,
 
   /** Primary content of the Divider */
   children: PropTypes.node,

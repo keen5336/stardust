@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 
-import { getElementType, getUnhandledProps, META } from '../../lib'
+import { customPropTypes, getElementType, getUnhandledProps, META } from '../../lib'
 import { Dropdown } from '../../modules'
 
 /**
@@ -20,10 +20,7 @@ Select._meta = {
 
 Select.propTypes = {
   /** An element type to render as (string or function). */
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  as: customPropTypes.as,
 }
 
 Select.defaultProps = {

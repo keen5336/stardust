@@ -4,7 +4,7 @@ import _ from 'lodash'
 import React, { Component, PropTypes } from 'react'
 
 import {
-  deprecateProps,
+  customPropTypes,
   getElementType,
   getUnhandledProps,
   META,
@@ -15,10 +15,7 @@ import FormFields from './FormFields'
 export default class Form extends Component {
   static propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-    ]),
+    as: customPropTypes.as,
 
     children: PropTypes.node,
     className: PropTypes.string,
@@ -53,13 +50,6 @@ export default class Form extends Component {
     // prevent submit by default
     // https://github.com/Semantic-Org/Semantic-UI/issues/546
     onSuccess: () => false,
-  }
-
-  constructor(props, context) {
-    super(props, context)
-    deprecateProps(this, {
-      settings: 'Use a separate prop for each setting.',
-    })
   }
 
   componentDidMount() {

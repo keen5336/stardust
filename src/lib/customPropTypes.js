@@ -1,44 +1,51 @@
-import { Children } from 'react'
+import { PropTypes, isValidElement } from 'react'
 import _ from 'lodash'
 
-const type = (...args) => Object.prototype.toString.call(...args)
+const typeOf = (...args) => Object.prototype.toString.call(...args)
 
 /**
- * Ensures children are of a set of types. Matches are made against the component _meta.name property.
- * @param {String[]} allowedTypes Collection of allowed component types.
+ * Ensures a prop is an element of a given type.
+ * @param {String[]} type An HTML tag name string or component function.
  */
-export const ofComponentTypes = (allowedTypes) => {
+export const elementOfType = (type) => {
+  // TODO: handle use in arrayOf/objectOf where args are
+  // propValue, key, componentName, location, propFullName
+  // propValue then is the array/object
   return (props, propName, componentName) => {
-    if (propName !== 'children') {
-      throw new Error(`ofComponentTypes can only be used on the \`children\` prop, not ${propName}.`)
-    }
-    if (!_.isArray(allowedTypes)) {
+    if (!(_.isFunction(type) || _.isString(type))) {
       throw new Error([
-        'Invalid argument supplied to ofComponentTypes, expected an instance of array.'
-          ` See ${componentName} prop \`${propName}\`.`,
-      ].join(''))
+        'Invalid argument supplied to elementOfType, expected a string or function.',
+        `See \`${propName}\` prop in \`${componentName}\`.`,
+      ].join(' '))
     }
-    const disallowed = _.compact(Children.map(props.children, child => {
-      return _.includes(allowedTypes, _.get(child, 'type._meta.name')) ? null : child
-    }))
-    if (!_.isEmpty(disallowed)) {
+    const propValue = props[propName]
+    const typeName = _.isString(type) ? type : _.get(type, '_meta.name', type.constructor.name)
+    const propType = _.isString(propValue) ? propValue : _.get(propValue, 'type')
+
+    if (!isValidElement(propValue)) {
       return new Error(
-        `\`${componentName}\` should only have children of type \`${allowedTypes}\`.`
+        `\`${propName}\` prop in \`${componentName}\` must a valid ReactElement, got: ${typeOf(propValue)}.`,
+      )
+    }
+
+    if (typeOf(propValue) !== typeOf(type) || !_.isMatch(propValue, { type })) {
+      return new Error(
+        `\`${propName}\` prop in \`${componentName}\` must be of type \`${typeName}\`, got: ${typeOf(propValue)}.`,
       )
     }
   }
 }
 
 /**
- * Verifies exclusivity of a given prop.
+ * Disallow other props form being defined with this prop.
  * @param {string[]} disallowedProps An array of props that cannot be used with this prop.
  */
 export const disallow = disallowedProps => {
   return (props, propName, componentName) => {
     if (!_.isArray(disallowedProps)) {
       throw new Error([
-        'Invalid argument supplied to mutuallyExclusive, expected an instance of array.'
-          ` See ${componentName} prop \`${propName}\`.`,
+        'Invalid argument supplied to disallow, expected an instance of array.'
+          ` See \`${propName}\` prop in \`${componentName}\`.`,
       ].join(''))
     }
 
@@ -52,7 +59,7 @@ export const disallow = disallowedProps => {
 
     if (!_.isEmpty(disallowed)) {
       return new Error([
-        `\`${componentName}\` prop \`${propName}\` conflicts with props: \`${disallowed.join('`, `')}\`.`,
+        `\`${propName}\` prop in \`${componentName}\` conflicts with props: \`${disallowed.join('`, `')}\`.`,
         'They cannot be defined together, choose one or the other.',
       ].join(' '))
     }
@@ -67,15 +74,15 @@ export const every = (validators) => {
   return (props, propName, componentName, ...rest) => {
     if (!_.isArray(validators)) {
       throw new Error([
-        'Invalid argument supplied to all, expected an instance of array.',
-        `See ${componentName} prop \`${propName}\`.`,
+        'Invalid argument supplied to every, expected an instance of array.',
+        `See \`${propName}\` prop in \`${componentName}\`.`,
       ].join(' '))
     }
 
     const errors = _.compact(_.map(validators, validator => {
       if (!_.isFunction(validator)) {
         throw new Error(
-          `all() argument "validators" should contain functions, found: ${type(validator)}.`
+          `every() argument "validators" should contain functions, found: ${typeOf(validator)}.`
         )
       }
       return validator(props, propName, componentName, ...rest)
@@ -94,15 +101,15 @@ export const some = (validators) => {
   return (props, propName, componentName, ...rest) => {
     if (!_.isArray(validators)) {
       throw new Error([
-        'Invalid argument supplied to all, expected an instance of array.',
-        `See ${componentName} prop \`${propName}\`.`,
+        'Invalid argument supplied to some, expected an instance of array.',
+        `See \`${propName}\` prop in \`${componentName}\`.`,
       ].join(' '))
     }
 
     const errors = _.map(validators, validator => {
       if (!_.isFunction(validator)) {
         throw new Error(
-          `any() argument "validators" should contain functions, found: ${type(validator)}.`
+          `some() argument "validators" should contain functions, found: ${typeOf(validator)}.`
         )
       }
       return validator(props, propName, componentName, ...rest)
@@ -130,15 +137,17 @@ export const givenProps = (propsShape, validator) => {
     if (!shouldValidate) return
 
     if (!_.isPlainObject(propsShape)) {
-      throw new Error(
-        `Invalid argument supplied to whenShape, expected an object. See ${componentName} prop \`${propName}\`.`,
-      )
+      throw new Error([
+        'Invalid argument supplied to givenProps, expected an object.',
+        `See \`${propName}\` prop in \`${componentName}\`.`,
+      ].join(' '))
     }
 
     if (!_.isFunction(validator)) {
-      throw new Error(
-        `Invalid argument supplied to whenShape, expected a function. See ${componentName} prop \`${propName}\`.`,
-      )
+      throw new Error([
+        'Invalid argument supplied to givenProps, expected a function.',
+        `See \`${propName}\` prop in \`${componentName}\`.`,
+      ].join(' '))
     }
 
     const error = validator(props, propName, componentName, ...rest)
@@ -169,7 +178,7 @@ export const demand = (requiredProps) => {
     if (!_.isArray(requiredProps)) {
       throw new Error([
         'Invalid `requiredProps` argument supplied to require, expected an instance of array.'
-          ` See ${componentName} prop \`${propName}\`.`,
+          ` See \`${propName}\` prop in \`${componentName}\`.`,
       ].join(''))
     }
 
@@ -179,8 +188,80 @@ export const demand = (requiredProps) => {
     const missingRequired = requiredProps.filter(required => _.isUndefined(props, required))
     if (!_.isEmpty(missingRequired)) {
       return new Error(
-        `\`${componentName}\` prop \`${propName}\` requires props: \`${missingRequired.join('`, `')}\`.`,
+        `\`${propName}\` prop in \`${componentName}\` requires props: \`${missingRequired.join('`, `')}\`.`,
       )
     }
   }
 }
+
+/**
+ * Show a deprecated warning for component props with a help message and optional validator.
+ * @param {string} help A help message to display with the deprecation warning.
+ * @param {function} [validator] A propType function.
+ */
+export const deprecate = (help, validator) => {
+  return (props, propName, componentName, ...args) => {
+    // do not show deprecation warnings in production
+    if (process.env.NODE_ENV === 'production') return
+
+    if (!_.isString(help)) {
+      throw new Error([
+        'Invalid `help` argument supplied to deprecate, expected a string.',
+        `See \`${propName}\` prop in \`${componentName}\`.`,
+      ].join(' '))
+    }
+
+    /* eslint-disable no-console */
+    console.error(`The \`${propName}\` prop in \`${componentName}\` is deprecated. ${help}`)
+    /* eslint-enable no-console */
+
+    if (validator && !_.isFunction(validator)) {
+      throw new Error([
+        'Invalid argument supplied to deprecate, expected a function.',
+        `See \`${propName}\` prop in \`${componentName}\`.`,
+      ].join(' '))
+    }
+
+    validator(props, propName, componentName, ...args)
+  }
+}
+
+/**
+ * Ensure a component can render as a give prop value.
+ */
+export const as = (...args) => PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.func,
+])(...args)
+
+/**
+ * Ensure a prop conforms to shorthand prop standards.
+ */
+export const shorthand = (...args) => every([
+  disallow(['children']),
+  PropTypes.string,
+])(...args)
+
+/**
+ * Ensure a prop conforms to icon prop standards.
+ */
+export const icon = (...args) => every([
+  disallow(['children']),
+  PropTypes.node,
+])(...args)
+
+/**
+ * Ensure a prop conforms to icon prop standards.
+ */
+export const image = (...args) => every([
+  disallow(['children']),
+  PropTypes.node,
+])(...args)
+
+/**
+ * Ensure a prop can be used as a React key in an array of child components.
+ */
+export const childKey = (...args) => every([
+  PropTypes.string,
+  PropTypes.number,
+])(...args)

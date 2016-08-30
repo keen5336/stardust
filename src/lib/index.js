@@ -18,7 +18,6 @@ export {
 } from './debug'
 
 export {
-  deprecateProps,
   deprecateComponent,
 } from './deprecate'
 

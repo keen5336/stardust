@@ -67,10 +67,7 @@ Header._meta = {
 
 Header.propTypes = {
   /** An element type to render as (string or function). */
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  as: customPropTypes.as,
 
   /** Additional classes */
   className: PropTypes.string,
@@ -82,10 +79,7 @@ Header.propTypes = {
   ]),
 
   /** Primary content.  Mutually exclusive with children. */
-  content: customPropTypes.every([
-    customPropTypes.disallow(['children']),
-    PropTypes.string,
-  ]),
+  content: customPropTypes.shorthand,
 
   /** Add an icon by icon name or pass an <Icon /.> */
   icon: customPropTypes.every([

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import cx from 'classnames'
 
-import { getElementType, META } from '../../lib'
+import { customPropTypes, getElementType, META } from '../../lib'
 import { Label } from '../../elements'
 
 function MenuItem(props) {
@@ -36,10 +36,7 @@ MenuItem._meta = {
 
 MenuItem.propTypes = {
   /** An element type to render as (string or function). */
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  as: customPropTypes.as,
 
   __onClick: PropTypes.func,
   active: PropTypes.bool,

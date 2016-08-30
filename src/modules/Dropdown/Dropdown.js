@@ -38,10 +38,7 @@ const _meta = {
 export default class Dropdown extends Component {
   static propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-    ]),
+    as: customPropTypes.as,
 
     // ------------------------------------
     // Behavior
@@ -70,7 +67,6 @@ export default class Dropdown extends Component {
       customPropTypes.disallow(['options', 'selection']),
       customPropTypes.demand(['text']),
       React.PropTypes.element,
-      customPropTypes.ofComponentTypes(['DropdownMenu']),
     ]),
 
     /** Current value or value array if multiple. Creates a controlled component. */

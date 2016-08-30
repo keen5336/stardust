@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
-import { getElementType, getUnhandledProps, META } from '../../lib'
+import { customPropTypes, getElementType, getUnhandledProps, META } from '../../lib'
 
 /**
  * A group of segments can be formatted to appear together.
@@ -8,10 +8,7 @@ import { getElementType, getUnhandledProps, META } from '../../lib'
 export default class SegmentSegments extends Component {
   static propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-    ]),
+    as: customPropTypes.as,
 
     children: PropTypes.node,
     className: PropTypes.string,

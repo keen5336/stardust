@@ -2,7 +2,7 @@ import _ from 'lodash'
 import classNames from 'classnames'
 import React, { Component, PropTypes, Children } from 'react'
 
-import { getElementType, getUnhandledProps, META } from '../../lib'
+import { customPropTypes, getElementType, getUnhandledProps, META } from '../../lib'
 import { Icon } from '../../elements'
 
 const inputPropNames = [
@@ -42,10 +42,7 @@ const inputPropNames = [
 export default class Input extends Component {
   static propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-    ]),
+    as: customPropTypes.as,
 
     children: PropTypes.node,
     className: PropTypes.string,

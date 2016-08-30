@@ -12,12 +12,12 @@ import TableColumn from './TableColumn'
 export default class Table extends Component {
   static propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-    ]),
+    as: customPropTypes.as,
 
-    children: customPropTypes.ofComponentTypes(['TableColumn']),
+    children: customPropTypes.some([
+      customPropTypes.elementOfType(TableColumn),
+      PropTypes.arrayOf(customPropTypes.elementOfType(TableColumn)),
+    ]),
     className: PropTypes.string,
     data: PropTypes.array,
     defaultSelectedRows: PropTypes.arrayOf(PropTypes.number),

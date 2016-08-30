@@ -2,15 +2,12 @@ import React, { Children, Component, cloneElement, PropTypes } from 'react'
 import cx from 'classnames'
 
 import MenuItem from './MenuItem'
-import { childrenUtils, getElementType, META } from '../../lib'
+import { childrenUtils, customPropTypes, getElementType, META } from '../../lib'
 
 export default class Menu extends Component {
   static propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-    ]),
+    as: customPropTypes.as,
 
     activeItem: PropTypes.string,
     children: PropTypes.node,

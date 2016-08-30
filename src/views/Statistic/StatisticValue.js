@@ -26,10 +26,7 @@ StatisticValue._meta = {
 
 StatisticValue.propTypes = {
   /** An element type to render as (string or function). */
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  as: customPropTypes.as,
 
   /** Primary content of the StatisticValue. */
   children: customPropTypes.every([
@@ -44,10 +41,7 @@ StatisticValue.propTypes = {
   text: PropTypes.bool,
 
   /** Primary content of the StatisticValue. Mutually exclusive with the children prop. */
-  value: customPropTypes.every([
-    customPropTypes.disallow(['children']),
-    PropTypes.string,
-  ]),
+  value: customPropTypes.shorthand,
 }
 
 export default StatisticValue

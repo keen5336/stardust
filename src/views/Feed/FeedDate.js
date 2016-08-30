@@ -9,12 +9,12 @@ import {
 } from '../../lib'
 
 function FeedDate(props) {
-  const { children, className, date } = props
+  const { children, className, content } = props
   const classes = cx(className, 'date')
   const rest = getUnhandledProps(FeedDate, props)
   const ElementType = getElementType(FeedDate, props)
 
-  return <ElementType {...rest} className={classes}>{children || date}</ElementType>
+  return <ElementType {...rest} className={classes}>{children || content}</ElementType>
 }
 
 FeedDate._meta = {
@@ -25,10 +25,7 @@ FeedDate._meta = {
 
 FeedDate.propTypes = {
   /** An element type to render as (string or function). */
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  as: customPropTypes.as,
 
   /** Primary content of the FeedDate. Mutually exclusive with the date prop. */
   children: customPropTypes.every([
@@ -39,11 +36,8 @@ FeedDate.propTypes = {
   /** Classes that will be added to the FeedDate className. */
   className: PropTypes.string,
 
-  /** Shorthand for primary content of the FeedDate. Mutually exclusive with the children prop. */
-  date: customPropTypes.every([
-    customPropTypes.disallow(['children']),
-    PropTypes.string,
-  ]),
+  /** Shorthand for primary content of the FeedDate. */
+  content: customPropTypes.shorthand,
 }
 
 export default FeedDate

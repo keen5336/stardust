@@ -2,18 +2,16 @@ import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
 
 import {
+  getElementType,
+  customPropTypes,
   META,
   numberToWord,
-  getElementType,
 } from '../../lib'
 
 export default class FormField extends Component {
   static propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-    ]),
+    as: customPropTypes.as,
 
     children: PropTypes.node,
     className: PropTypes.string,

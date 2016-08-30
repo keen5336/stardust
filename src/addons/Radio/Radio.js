@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 
-import { META, getElementType } from '../../lib'
+import { customPropTypes, getElementType, META } from '../../lib'
 import { Checkbox } from '../../modules'
 
 /**
@@ -20,10 +20,7 @@ Radio._meta = {
 
 Radio.propTypes = {
   /** An element type to render as (string or function). */
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  as: customPropTypes.as,
 }
 
 Radio.defaultProps = {

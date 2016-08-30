@@ -57,10 +57,7 @@ Feed._meta = {
 
 Feed.propTypes = {
   /** An element type to render as (string or function). */
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  as: customPropTypes.as,
 
   /** Primary content of the Feed. */
   children: customPropTypes.every([
@@ -75,14 +72,8 @@ Feed.propTypes = {
   events: customPropTypes.every([
     customPropTypes.disallow(['children']),
     PropTypes.arrayOf(PropTypes.shape({
-      childKey: PropTypes.string,
-      date: PropTypes.string,
-      image: PropTypes.node,
-      icon: PropTypes.node,
-      meta: PropTypes.string,
-      summary: PropTypes.string,
-      extraText: PropTypes.string,
-      extraImages: PropTypes.arrayOf(PropTypes.node),
+      childKey: PropTypes.childKey,
+      ...FeedEvent.propTypes,
     })),
   ]),
 

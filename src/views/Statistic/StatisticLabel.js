@@ -25,10 +25,7 @@ StatisticLabel._meta = {
 
 StatisticLabel.propTypes = {
   /** An element type to render as (string or function). */
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  as: customPropTypes.as,
 
   /** Primary content of the StatisticLabel. */
   children: customPropTypes.every([
@@ -40,10 +37,7 @@ StatisticLabel.propTypes = {
   className: PropTypes.string,
 
   /** Primary content of the StatisticLabel. Mutually exclusive with the children prop. */
-  label: customPropTypes.every([
-    customPropTypes.disallow(['children']),
-    PropTypes.string,
-  ]),
+  label: customPropTypes.shorthand,
 }
 
 export default StatisticLabel

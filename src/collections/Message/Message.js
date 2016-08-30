@@ -105,10 +105,7 @@ Message._meta = {
 
 Message.propTypes = {
   /** An element type to render as (string or function). */
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  as: customPropTypes.as,
 
   /** Primary content of the message. */
   children: customPropTypes.every([

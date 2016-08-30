@@ -28,10 +28,7 @@ ItemMeta._meta = {
 
 ItemMeta.propTypes = {
   /** An element type to render as (string or function). */
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  as: customPropTypes.as,
 
   /** Primary content of the ItemMeta. */
   children: customPropTypes.every([
@@ -43,10 +40,7 @@ ItemMeta.propTypes = {
   className: PropTypes.string,
 
   /** Primary content of the ItemMeta. Mutually exclusive with the children prop. */
-  content: customPropTypes.every([
-    customPropTypes.disallow(['children']),
-    PropTypes.string,
-  ]),
+  content: customPropTypes.shorthand,
 }
 
 export default ItemMeta

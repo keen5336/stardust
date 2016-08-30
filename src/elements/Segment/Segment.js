@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
 
-import { getElementType, getUnhandledProps, META } from '../../lib'
+import { customPropTypes, getElementType, getUnhandledProps, META } from '../../lib'
 import { Header } from '../'
 import Segments from './SegmentSegments'
 
@@ -11,10 +11,7 @@ import Segments from './SegmentSegments'
 export default class Segment extends Component {
   static propTypes = {
     /** An element type to render as (string or function). */
-    as: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-    ]),
+    as: customPropTypes.as,
 
     /**
      * Segment tag body content.

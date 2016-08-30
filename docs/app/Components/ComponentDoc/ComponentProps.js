@@ -3,11 +3,6 @@ import React, { Component, PropTypes } from 'react'
 
 import { Divider, Header, Label, Table } from 'stardust'
 
-const DOCBLOCK_DESCRIPTION_DEFAULTS = {
-  children: 'Body of the component.',
-  className: 'Class names for custom styling.',
-}
-
 /**
  * Displays a table of a Component's PropTypes.
  */
@@ -23,31 +18,26 @@ export default class ComponentProps extends Component {
   nameRenderer = (item) => <code>{item.name}</code>
 
   requiredRenderer = (item) => {
-    if (item.required) {
-      return <Label size='mini' color='red' circular>required</Label>
-    }
-  }
-  defaultValueRenderer = (item) => {
-    const defaultValue = _.get(item, 'defaultValue.value')
-    const defaultIsComputed = <span className='ui mini gray circular label'>computed</span>
+    if (!item.required) return
 
-    return (
-      <div>
-        {defaultValue} {_.get(item, 'defaultValue.computed') && defaultIsComputed}
-      </div>
-    )
+    return <Label size='mini' color='red' circular>required</Label>
+  }
+
+  defaultValueRenderer = (item) => {
+    if (!item.defaultValue) return
+    const { value, computed } = item.defaultValue
+
+    return <div>{value} {computed && <Label size='mini' color='gray' circular>computed</Label>}</div>
   }
 
   render() {
     const propsDefinition = this.props.props
     const content = _.map(propsDefinition, (propConfig, propName) => {
-      const name = propName
-      const description = _.get(propConfig, 'docBlock.description') || DOCBLOCK_DESCRIPTION_DEFAULTS[name]
-
+      const description = _.get(propConfig, 'docBlock.description')
       const value = _.get(propConfig, 'type.value')
       let type = _.get(propConfig, 'type.name')
       if (type === 'union') {
-        type = _.map(value, (val) => val.name).join('|')
+        type = _.map(value, (val) => val.propName).join('|')
       }
       type = type && `{${type}}`
 
@@ -55,7 +45,7 @@ export default class ComponentProps extends Component {
       const defaultValue = propConfig.defaultValue
 
       return {
-        name,
+        name: propName,
         type,
         value,
         required,

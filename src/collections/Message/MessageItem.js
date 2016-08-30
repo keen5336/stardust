@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { getElementType, getUnhandledProps, META } from '../../lib'
+import { customPropTypes, getElementType, getUnhandledProps, META } from '../../lib'
 
 function MessageItem(props) {
   const { children } = props
@@ -17,10 +17,7 @@ MessageItem._meta = {
 
 MessageItem.propTypes = {
   /** An element type to render as (string or function). */
-  as: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.func,
-  ]),
+  as: customPropTypes.as,
 
   /** Primary content. */
   children: PropTypes.node,
