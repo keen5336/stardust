@@ -52,7 +52,7 @@ config = Object.assign({}, config, {
   // ----------------------------------
   // Compiler Configuration
   // ----------------------------------
-  compiler_devtool: __DEV__ && 'eval-cheap-module-source-map'
+  compiler_devtool: __DEV__ && 'eval-source-map'
   || __TEST__ && 'cheap-module-source-map'
   || __STAGING__ && 'source-map',
   compiler_hash_type: __PROD__ ? 'chunkhash' : 'hash',
